@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ANIME API</title>
+    <meta charset="utf-8"/>
+    <script>
+        function getData() {
+            //Create XMLHTTP request
+            request = new XMLHttpRequest();
+
+            //Set URL for the AJAX request to be the JSON file
+            request.open("GET", "https://animechan.vercel.app/api/random", true)
+
+            //Set up event handler/callback
+            request.onreadystatechange = function(){
+                //if everything prior is done correctly, get data from API
+                if (request.readyState == 4 && request.status == 200) {
+                    //wait for it to be done
+                    console.log("5 received");
+                    result = request.responseText;
+                    randQuote = JSON.parse(result);
+
+                    document.getElementById("data").innerHTML = "<b>Anime:</b> " + randQuote["anime"] + "<br/>" + "<b>Quote:</b> '" + "<i>" + randQuote["quote"] + "' </i>";
+                }
+                //error messages to let programmer know there is an error
+                else if (request.readyState == 4 && request.status != 200) {
+                    document.getElementById("data").innerHTML = "Something is wrong!  Check the logs";
+                }
+                else if (request.readyState == 3) {
+                    document.getElementById("data").innerHTML = "Too soon. Try again";
+                }
+            }
+                //Send HTTP request 
+                request.send();
+                console.log("4 request sent");
+        }
+    </script>
+    </head>
+    
+    <body style = "background-color:#d7e0f7;" onload = "getData()">
+        <h1 style= "font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">Random Anime Quote</h1>
+        <div style="font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;" id="data">Loading...</div>
+        <div>
+            <ul style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+                <li><h5>The API I selected provides random Anime quotes. It gives the anime title, the quote, and 
+                    the character that said it. Depending on the URL used, one can get multiple quotes, or quotes 
+                    filtered by anime or character.
+                </h5></li>
+                <li><h5>Source: https://animechan.vercel.app/guide#random-quote </h5></li>
+                <li><h5>API Request Options: For the API request, I used "GET" like Professor Diorio did in her example.</h5></li>
+                <li><h5>This API would be helpful in an app geared toward those passionate about Anime or if someone
+                    wanted to gather quotes from a specific anime character.
+                </h5></li>
+            </ul>
+        </div>
+    </body>
+</html>
